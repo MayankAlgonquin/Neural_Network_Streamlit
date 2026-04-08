@@ -3,13 +3,14 @@ from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LinearRegression
 from sklearn.linear_model import LogisticRegression
+from sklearn.neural_network import MLPClassifier
 import pickle
 
 
 # Function to train the model
 def train_RFmodel(X, y):
     # Splitting the data into training and testing sets
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=123)
+    X_train, X_test, y_train, y_test =  train_test_split(X, y, test_size=0.2, random_state=123, stratify=y)
 
     # Scale the data using MinMaxScaler
     scaler = MinMaxScaler()
@@ -20,12 +21,13 @@ def train_RFmodel(X, y):
     # Train the logistic regression model
     
 
-    lrmodel = LogisticRegression().fit(X_train_scaled, y_train)
+    MLP = MLPClassifier(hidden_layer_sizes=(3), batch_size=50, max_iter=200, random_state=123)
+    MLP.fit(X_train_scaled ,y_train)
    
     
     # Save the trained model
-    with open('models/lrmodel.pkl', 'wb') as f:
-        pickle.dump(lrmodel, f)
+    with open('models/mlpmodel.pkl', 'wb') as f:
+        pickle.dump(MLP, f)
     
     with open("models/columns.pkl", "wb") as f:
         pickle.dump(X.columns.tolist(), f)
@@ -33,4 +35,4 @@ def train_RFmodel(X, y):
     with open("models/scaler.pkl", "wb") as f:
         pickle.dump(scaler, f)
 
-    return lrmodel, X_test_scaled, y_test
+    return MLP, X_test_scaled, y_test

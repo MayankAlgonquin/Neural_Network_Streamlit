@@ -48,24 +48,44 @@ def plot_correlation_heatmap(data):
 
 #     fig.savefig("feature_importance.png")
 
-def plot_feature_importance(model, x):
-    import pandas as pd
+# def plot_feature_importance(model, x):
+#     import pandas as pd
 
-    coef = model.coef_[0]
+#     coef = model.coef_[0]
+
+#     coef_df = pd.DataFrame({
+#         "Feature": x.columns,
+#         "Importance": coef
+#     }).sort_values(by="Importance", ascending=False)
+
+#     fig, ax = plt.subplots()
+#     sns.barplot(x="Importance", y="Feature", data=coef_df, ax=ax)
+
+#     plt.title("Feature Importance (Logistic Regression)")
+#     plt.tight_layout()
+
+#     fig.savefig("feature_importance.png")
+
+from sklearn.inspection import permutation_importance
+
+def plot_feature_importance(model, x, y, feature_names):
+    import pandas as pd
+    from sklearn.inspection import permutation_importance
+
+    result = permutation_importance(model, x, y, n_repeats=20, random_state=42)
 
     coef_df = pd.DataFrame({
-        "Feature": x.columns,
-        "Importance": coef
+        "Feature": feature_names,
+        "Importance": result.importances_mean
     }).sort_values(by="Importance", ascending=False)
 
     fig, ax = plt.subplots()
     sns.barplot(x="Importance", y="Feature", data=coef_df, ax=ax)
 
-    plt.title("Feature Importance (Logistic Regression)")
+    plt.title("Feature Importance (Permutation Importance)")
     plt.tight_layout()
-
     fig.savefig("feature_importance.png")
-    
+
 def plot_confusion_matrix(y_true, y_pred, classes, normalize=False, title='Confusion Matrix'):
     """
     Plot the confusion matrix for the given true and predicted labels.

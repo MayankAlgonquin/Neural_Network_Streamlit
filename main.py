@@ -25,7 +25,7 @@ os.makedirs('models', exist_ok=True)
 
 if __name__ == "__main__":
     # Load and preprocess the data
-    data_path = "/Users/mayankarora/Documents/BISI /Term 2/Loan App Final/Real_Estate_Streamlit-main/data/raw/credit.csv"
+    data_path = "/Users/mayankarora/Documents/BISI /Term 2/Neural Netoworks Main/data/raw/Admission.csv"
     df =  load_and_clean_data(data_path)
 
     # Create dummy variables and separate features and target
@@ -35,7 +35,7 @@ if __name__ == "__main__":
     model, X_test_scaled, y_test = train_RFmodel(X, y)
 
     # Evaluate the model
-    plot_feature_importance(model, X)
+    plot_feature_importance(model, X_test_scaled, y_test, X.columns)
     metrics = evaluate_model(model, X_test_scaled, y_test)
 
     print(metrics)

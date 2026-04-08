@@ -23,7 +23,7 @@ with open("models/scaler.pkl", "rb") as f:
     scaler = pickle.load(f)
 # Load model
 try:
-    rf_pickle = open("models/lrmodel.pkl", "rb")
+    rf_pickle = open("models/mlpmodel.pkl", "rb")
     rf_model = pickle.load(rf_pickle)
     rf_pickle.close()
 
@@ -33,75 +33,69 @@ except Exception as e:
     st.stop()
 
 # Form
+# Form
 with st.form("user_inputs"):
-    st.subheader("Loan Prediction Inputs")
+    st.subheader("Admission Prediction Inputs")
 
-    ApplicantIncome = st.number_input("Applicant Income", min_value=0)
-    CoapplicantIncome = st.number_input("Coapplicant Income", min_value=0)
-    LoanAmount = st.number_input("Loan Amount", min_value=0)
-    Loan_Amount_Term = st.number_input("Loan Amount Term", min_value=0)
+    # Row 1
+    col1, col2 = st.columns(2)
+    with col1:
+        GRE_Score = st.number_input("GRE Score", min_value=0, max_value=340, value=320)
+    with col2:
+        LOR = st.selectbox("Letter of Recommendation (LOR)", [1.0, 2.0, 3.0, 4.0, 5.0])
 
-    Gender = st.selectbox("Gender", ["Male", "Female"])
-    Married = st.selectbox("Married", ["Yes", "No"])
-    Dependents = st.selectbox("Dependents", ["0", "1", "2", "3+"])
-    Education = st.selectbox("Education", ["Graduate", "Not Graduate"])
-    Self_Employed = st.selectbox("Self Employed", ["Yes", "No"])
-    Property_Area = st.selectbox("Property Area", ["Rural", "Semiurban", "Urban"])
+    # Row 2
+    col1, col2 = st.columns(2)
+    with col1:
+        TOEFL_Score = st.number_input("TOEFL Score", min_value=0, max_value=120, value=100)
+    with col2:
+        CGPA = st.number_input("CGPA", min_value=0.0, max_value=10.0, value=8.0)
 
-    submitted = st.form_submit_button("Predict")
+    # Row 3
+    col1, col2 = st.columns(2)
+    with col1:
+        University_Rating = st.selectbox("University Rating", [1, 2, 3, 4, 5])
+    with col2:
+        Research = st.selectbox("Research Experience", ["Yes", "No"])
+
+    # Row 4
+    SOP = st.selectbox("Statement of Purpose (SOP)", [1.0, 2.0, 3.0, 4.0, 5.0])
+
+    submitted = st.form_submit_button("Predict Admission Class")
 
 if submitted:
 
-
     input_dict = {
-        'ApplicantIncome': ApplicantIncome,
-        'CoapplicantIncome': CoapplicantIncome,
-        'LoanAmount': LoanAmount,
-        'Loan_Amount_Term': Loan_Amount_Term,
-
-        'Gender_Female': 1 if Gender == "Female" else 0,
-        'Gender_Male': 1 if Gender == "Male" else 0,
-
-        'Married_No': 1 if Married == "No" else 0,
-        'Married_Yes': 1 if Married == "Yes" else 0,
-
-        'Dependents_0': 1 if Dependents == "0" else 0,
-        'Dependents_1': 1 if Dependents == "1" else 0,
-        'Dependents_2': 1 if Dependents == "2" else 0,
-        'Dependents_3+': 1 if Dependents == "3+" else 0,
-
-        'Education_Graduate': 1 if Education == "Graduate" else 0,
-        'Education_Not Graduate': 1 if Education == "Not Graduate" else 0,
-
-        'Self_Employed_No': 1 if Self_Employed == "No" else 0,
-        'Self_Employed_Yes': 1 if Self_Employed == "Yes" else 0,
-
-        'Property_Area_Rural': 1 if Property_Area == "Rural" else 0,
-        'Property_Area_Semiurban': 1 if Property_Area == "Semiurban" else 0,
-        'Property_Area_Urban': 1 if Property_Area == "Urban" else 0,
+        "GRE_Score": GRE_Score,
+        "TOEFL_Score": TOEFL_Score,
+        "University_Rating": University_Rating,
+        "SOP": SOP,
+        "LOR": LOR,
+        "CGPA": CGPA,
+        "Research": 1 if Research == "Yes" else 0
     }
 
     input_df = pd.DataFrame([input_dict])
 
-
+    # Align with training columns (if needed)
     with open("models/columns.pkl", "rb") as f:
         cols = pickle.load(f)
 
     input_df = input_df.reindex(columns=cols, fill_value=0)
 
-   
+    # Scale
     with open("models/scaler.pkl", "rb") as f:
         scaler = pickle.load(f)
 
     input_scaled = scaler.transform(input_df)
 
-
+    # Predict
     prediction = rf_model.predict(input_scaled)
     proba = rf_model.predict_proba(input_scaled)
 
-    result = "Approved" if prediction[0] == 1 else "Not Approved"
-    st.write(f"Loan Status: {result}")
-  
+    result = "Admit" if prediction[0] == 1 else "Reject"
+    st.write(f"Prediction: {result}")
+    st.write(f"Probability: {proba[0][1]:.2f}")
 
 st.write("""
 We used a Logistic Regression model to predict the loan elgibility.
