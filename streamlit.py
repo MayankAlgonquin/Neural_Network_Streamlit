@@ -6,7 +6,7 @@ import streamlit as st
 
 import logging
 import os
-
+ #Implementing logger to track streamlit functions
 logging.basicConfig(
     level=os.environ.get("LOGLEVEL", "DEBUG"),
     format="%(asctime)s - %(levelname)s - %(message)s"
@@ -32,7 +32,6 @@ except Exception as e:
     st.error(f"Model loading failed: {e}")
     st.stop()
 
-# Form
 # Form
 with st.form("user_inputs"):
     st.subheader("Admission Prediction Inputs")
@@ -64,6 +63,8 @@ with st.form("user_inputs"):
     submitted = st.form_submit_button("Predict Admission Class")
 
 if submitted:
+    
+    #Create an input dictionary
 
     input_dict = {
         "GRE_Score": GRE_Score,
@@ -77,28 +78,32 @@ if submitted:
 
     input_df = pd.DataFrame([input_dict])
 
-    # Align with training columns (if needed)
+    # Align with training columns 
     with open("models/columns.pkl", "rb") as f:
         cols = pickle.load(f)
 
     input_df = input_df.reindex(columns=cols, fill_value=0)
 
-    # Scale
+    # Scale to ensure it is consistent with the trained model
     with open("models/scaler.pkl", "rb") as f:
         scaler = pickle.load(f)
 
+    #transform the scaled model
     input_scaled = scaler.transform(input_df)
 
     # Predict
     prediction = rf_model.predict(input_scaled)
     proba = rf_model.predict_proba(input_scaled)
 
+    #Prints the result.
     result = "Admit" if prediction[0] == 1 else "Reject"
     st.write(f"Prediction: {result}")
     st.write(f"Probability: {proba[0][1]:.2f}")
 
-st.write("""
-We used a Logistic Regression model to predict the loan elgibility.
-""")
+    st.write("""
+    We used a neural network to predict if you will get the admission.
+    """)
 
 
+#Appends image in the webpage
+    st.image("feature_importance.png")

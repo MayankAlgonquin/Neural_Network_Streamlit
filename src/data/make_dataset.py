@@ -1,5 +1,7 @@
+#Importing pandas library for data processing
 import pandas as pd
 
+#Loading and cleaning the dataset.
 def load_and_clean_data(data_path):
     # Load dataset
     data = pd.read_csv(data_path)

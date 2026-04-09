@@ -1,3 +1,4 @@
+#Importing relevant models for training models
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
@@ -18,7 +19,7 @@ def train_RFmodel(X, y):
     X_test_scaled = scaler.transform(X_test)
 
 
-    # Train the logistic regression model
+    # Train the MLP Classifier
     
 
     MLP = MLPClassifier(hidden_layer_sizes=(3), batch_size=50, max_iter=200, random_state=123)
