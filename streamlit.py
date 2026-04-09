@@ -15,9 +15,9 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 # Title
-st.title("Loan Eligibility Predictor")
+st.title("College Application Predictor")
 st.write("""
-This app predicts whether an applicant will be approved loan based on economic and demographic factors.
+This app predicts whether an applicant will be approved for an admission based on academic factors.
 """)
 with open("models/scaler.pkl", "rb") as f:
     scaler = pickle.load(f)
