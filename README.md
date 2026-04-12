@@ -3,7 +3,7 @@ This app has been built using Streamlit and deployed with Streamlit community cl
 
 
 This application predicts whether someone is eligible for admission based on academic factors like examination socres, cgpa, etc.
-
+https://neuralnetworkapp-ew6xwkpp8jbovwf94zh7mz.streamlit.app
 ## Features
 - User-friendly interface powered by Streamlit.
 - Input form to enter details such as GRE score, LOR, Toefl score, cgpa, university ranking, research experience, and SOP.
