@@ -56,6 +56,7 @@ if __name__ == "__main__":
     # Step 4: Visualization
     try:
         plot_feature_importance(model, X_test_scaled, y_test, X.columns)
+        plot_correlation_heatmap(df)
         logger.info("Feature importance plotted")
     except Exception as e:
         logger.exception(f"Error in feature importance: {e}")

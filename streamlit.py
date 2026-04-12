@@ -3,7 +3,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import pickle
 import streamlit as st
-
+import random
 import logging
 import os
  #Implementing logger to track streamlit functions
@@ -31,7 +31,15 @@ try:
 except Exception as e:
     st.error(f"Model loading failed: {e}")
     st.stop()
-
+fun_facts = [
+    "Canadian universities evaluate applicants holistically, considering grades, extracurriculars, and sometimes personal statements.",
+    "Many colleges in Canada offer co-op programs that allow students to gain paid work experience during their studies.",
+    "International students often need to demonstrate English proficiency through tests like IELTS or TOEFL.",
+    "Admission to competitive programs such as computer science or business can require significantly higher grades than general programs.",
+    "Colleges in Canada are typically more career-focused, while universities emphasize academic and research-based learning."
+]
+random_fact = "Fun Fact: " + random.choice(fun_facts)
+st.info(random_fact)
 # Form
 with st.form("user_inputs"):
     st.subheader("Admission Prediction Inputs")
@@ -106,4 +114,9 @@ if submitted:
 
 
 #Appends image in the webpage
-    st.image("feature_importance.png")
+st.image("feature_importance.png")
+st.image("correlation_heatmap.png")
+
+linked = "Like my app? Find me on LinkedIn at https://www.linkedin.com/in/mayannkarora/"
+
+st.info(linked)

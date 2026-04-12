@@ -14,6 +14,7 @@ def plot_correlation_heatmap(data):
     plt.figure(figsize=(12, 8))
     sns.heatmap(data.corr(), annot=True, cmap='coolwarm')
     plt.title('Correlation Heatmap', fontsize=16)
+    plt.savefig("correlation_heatmap.png")
     plt.show()
 
 # def plot_feature_importance(model, x):
@@ -107,3 +108,4 @@ def plot_confusion_matrix(y_true, y_pred, classes, normalize=False, title='Confu
     plt.ylabel('Actual', fontsize=12)
     plt.title(title, fontsize=16)
     plt.show()
+    

@@ -1,25 +1,21 @@
-# credit_eligibility
+# College Application Predictor
 This app has been built using Streamlit and deployed with Streamlit community cloud
 
-https://credit-eligibility-app.streamlit.app/
 
-This application predicts whether someone is eligible for a loan based on inputs derived from the German Credit Risk dataset. The model aims to help users assess loan eligibility by leveraging machine learning predictions.
+This application predicts whether someone is eligible for admission based on academic factors like examination socres, cgpa, etc.
 
 ## Features
 - User-friendly interface powered by Streamlit.
-- Input form to enter details such as credit history, loan amount, income, and other relevant factors.
-- Real-time prediction of loan eligibility based on the trained model.
+- Input form to enter details such as GRE score, LOR, Toefl score, cgpa, university ranking, research experience, and SOP.
+- Predicts the probability of getting admissino based on the above factors. 
 - Accessible via Streamlit Community Cloud.
 
 ## Dataset
-The application includes features like:
-- Age
-- Job
-- Housing status
-- Credit amount
-- Duration of credit
-- Purpose of loan
-- And other factors influencing credit risk.
+The admission dataset includes features like:
+- GRE and TOEFL score
+- GPA 
+- University ranking
+- SOP and LOR score
 
 ## Technologies Used
 - **Streamlit**: For building the web application.
